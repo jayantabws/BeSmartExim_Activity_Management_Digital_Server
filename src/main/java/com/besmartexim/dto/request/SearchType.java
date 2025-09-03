@@ -3,6 +3,7 @@ package com.besmartexim.dto.request;
 import java.io.Serializable;
 
 public enum SearchType implements Serializable{
+	ADVANCE,
     TRADE,
     IN_DEPTH,
     MACRO;
