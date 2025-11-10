@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.besmartexim.database.entity.Workspace;
 
 @Repository
-public interface WorkspaceRepository extends JpaRepository<Workspace, Long>{
-	
-	//public List<Workspace> findByCreatedby(Long created_by);
+public interface WorkspaceRepository extends JpaRepository<Workspace, Long> {
+
+	// public List<Workspace> findByCreatedby(Long created_by);
 	List<Workspace> findByCreatedby(Long createdby);
 
 }

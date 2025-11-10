@@ -3,10 +3,10 @@ package com.besmartexim.dto.request;
 import javax.validation.constraints.NotBlank;
 
 public class WorkspaceRequest {
-	
+
 	@NotBlank
 	private String name;
-	
+
 	private String is_active;
 
 	public String getName() {
@@ -24,7 +24,5 @@ public class WorkspaceRequest {
 	public void setIs_active(String is_active) {
 		this.is_active = is_active;
 	}
-	
-	
 
 }

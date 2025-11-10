@@ -1,4 +1,5 @@
 package com.besmartexim.database.entity;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,31 +17,28 @@ public class Workspace {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
-	
 
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "is_active")
 	private String is_active;
-	
+
 	@Column(name = "is_delete")
 	private String is_delete;
-	
+
 	@Column(name = "created_by")
 	private Long createdby;
-	
+
 	@Column(name = "created_date")
 	private Date created_date;
-	
+
 	@Column(name = "modified_by")
 	private Long modified_by;
-	
+
 	@Column(name = "modified_date")
 	private Date modified_date;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -72,8 +70,6 @@ public class Workspace {
 	public void setIs_delete(String is_delete) {
 		this.is_delete = is_delete;
 	}
-
-	
 
 	public Long getCreatedby() {
 		return createdby;

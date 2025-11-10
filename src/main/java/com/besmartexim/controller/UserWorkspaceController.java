@@ -1,6 +1,5 @@
 package com.besmartexim.controller;
 
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -27,78 +26,84 @@ import com.besmartexim.service.WorkspaceService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="/activity-management")
+@RequestMapping(path = "/activity-management")
 public class UserWorkspaceController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserWorkspaceController.class);
-	
+
 	@Autowired
 	private UserWorkspaceService userWorkspaceService;
-	
+
 	@Autowired
 	private WorkspaceService workspaceService;
-	
+
 	@RequestMapping(value = "/workspace", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> workspaceCreate(@RequestBody  @Valid WorkspaceRequest workspaceRequest, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
+	public ResponseEntity<?> workspaceCreate(@RequestBody @Valid WorkspaceRequest workspaceRequest,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
 		logger.info("Request : /activity-management/workspace");
 		Long workspaceId;
 		workspaceId = workspaceService.workspaceCreate(workspaceRequest, accessedBy);
 		return new ResponseEntity<>(workspaceId, HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "/workspace/{workspaceId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity workspaceUpdate(@RequestBody  @Valid WorkspaceRequest workspaceRequest,@PathVariable Long workspaceId,@RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);		
-		workspaceService.workspaceUpdate(workspaceRequest,workspaceId,accessedBy);		
+	public ResponseEntity workspaceUpdate(@RequestBody @Valid WorkspaceRequest workspaceRequest,
+			@PathVariable Long workspaceId, @RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+			throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+		workspaceService.workspaceUpdate(workspaceRequest, workspaceId, accessedBy);
 		return new ResponseEntity<>(HttpStatus.OK);
-		
+
 	}
-	
+
 	@RequestMapping(value = "/workspace/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity workspaceList(@RequestParam Long userId, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
-			
+	public ResponseEntity workspaceList(@RequestParam Long userId,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+
 		WorkspaceResponse workspaceResponse = workspaceService.workspaceListByUserId(userId);
-		
+
 		return new ResponseEntity<>(workspaceResponse, HttpStatus.OK);
-		
+
 	}
-	
+
 	@RequestMapping(value = "/workspace/savesearch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity workspaceUpdate(@RequestBody UserWorkspaceRequest userWorkspaceRequest,@RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
-			
-		if(null == userWorkspaceRequest.getWorkspace_id()) {
+	public ResponseEntity workspaceUpdate(@RequestBody UserWorkspaceRequest userWorkspaceRequest,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+
+		if (null == userWorkspaceRequest.getWorkspace_id()) {
 			throw new Exception("workspace_id is Blank");
 		}
-		userWorkspaceService.saveSearch(userWorkspaceRequest,accessedBy);
-		
+		userWorkspaceService.saveSearch(userWorkspaceRequest, accessedBy);
+
 		return new ResponseEntity<>(HttpStatus.CREATED);
-		
+
 	}
-	
+
 	@RequestMapping(value = "/workspace/removesearch", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity workspaceRemove(@RequestParam (required=true) Long userWorkspaceId,@RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);			
-		
-		userWorkspaceService.removeSearch(userWorkspaceId,accessedBy);
-		
+	public ResponseEntity workspaceRemove(@RequestParam(required = true) Long userWorkspaceId,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+
+		userWorkspaceService.removeSearch(userWorkspaceId, accessedBy);
+
 		return new ResponseEntity<>(HttpStatus.OK);
-		
+
 	}
-	
+
 	@RequestMapping(value = "/workspace/searchByUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserWorkspaceResponse> workspaceSearchByUser(@RequestParam(value="createdBy",required=true) Long createdBy,@RequestParam(value="workspaceId",required=false) Long workspaceId,
-			@RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
-			
-		UserWorkspaceResponse userWorkspaceResponse = userWorkspaceService.workspaceSearchByUser(workspaceId,createdBy);
-		
+	public ResponseEntity<UserWorkspaceResponse> workspaceSearchByUser(
+			@RequestParam(value = "createdBy", required = true) Long createdBy,
+			@RequestParam(value = "workspaceId", required = false) Long workspaceId,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+
+		UserWorkspaceResponse userWorkspaceResponse = userWorkspaceService.workspaceSearchByUser(workspaceId,
+				createdBy);
+
 		return new ResponseEntity<>(userWorkspaceResponse, HttpStatus.OK);
-		
+
 	}
-	
-	
-	
 
 }

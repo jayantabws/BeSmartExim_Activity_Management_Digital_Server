@@ -3,8 +3,8 @@ package com.besmartexim.dto.response;
 import java.util.List;
 
 public class WorkspaceResponse {
-	
-	List <WSpace> workspaceList;
+
+	List<WSpace> workspaceList;
 
 	public List<WSpace> getWorkspaceList() {
 		return workspaceList;
@@ -13,7 +13,5 @@ public class WorkspaceResponse {
 	public void setWorkspaceList(List<WSpace> workspaceList) {
 		this.workspaceList = workspaceList;
 	}
-	
-	
 
 }

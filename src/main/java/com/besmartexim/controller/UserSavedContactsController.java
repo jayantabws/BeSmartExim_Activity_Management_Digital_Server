@@ -23,42 +23,47 @@ import com.besmartexim.service.UserSavedContactsService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="/activity-management")
+@RequestMapping(path = "/activity-management")
 public class UserSavedContactsController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UserSavedContactsController.class);
-	
+
 	@Autowired
 	private UserSavedContactsService userSavedContactsService;
-	
+
 	@RequestMapping(value = "/savecontact", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> savecontact(@RequestBody  @Valid UserSavedContactsRequest userSavedContactsRequest, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
+	public ResponseEntity<?> savecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
 		logger.info("Request : /activity-management/savecontact");
-		String result =  userSavedContactsService.savecontact(userSavedContactsRequest, accessedBy);
-		return new ResponseEntity<>(result,HttpStatus.OK);
+		String result = userSavedContactsService.savecontact(userSavedContactsRequest, accessedBy);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/updatecontact/{contactId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> updatecontact(@RequestBody  @Valid UserSavedContactsRequest userSavedContactsRequest, @PathVariable Long contactId, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
+	public ResponseEntity<?> updatecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
+			@PathVariable Long contactId, @RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+			throws Exception {
 		logger.info("Request : /activity-management/updatecontact");
-		userSavedContactsService.updatecontact(userSavedContactsRequest,contactId, accessedBy);
+		userSavedContactsService.updatecontact(userSavedContactsRequest, contactId, accessedBy);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "/listcontact", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity contactListByUserId(@RequestParam Long userId, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
+	public ResponseEntity contactListByUserId(@RequestParam Long userId,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListByUserId(userId);
-		return new ResponseEntity<> (userSavedContactsResponse, HttpStatus.OK);
-		
+		return new ResponseEntity<>(userSavedContactsResponse, HttpStatus.OK);
+
 	}
-	
+
 	@RequestMapping(value = "/listcontact/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity contactListAll(@RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
+	public ResponseEntity contactListAll(@RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+			throws Exception {
+		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListAll();
-		return new ResponseEntity<> (userSavedContactsResponse, HttpStatus.OK);
-		
+		return new ResponseEntity<>(userSavedContactsResponse, HttpStatus.OK);
+
 	}
 
 }

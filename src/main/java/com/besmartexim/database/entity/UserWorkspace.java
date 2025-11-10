@@ -1,4 +1,5 @@
 package com.besmartexim.database.entity;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,31 +19,31 @@ public class UserWorkspace {
 
 	@Column(name = "workspace_id")
 	private Long workspaceId;
-	
+
 	@Column(name = "search_id")
 	private Long searchId;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "is_active")
 	private String isActive;
-	
+
 	@Column(name = "is_delete")
 	private String isDelete;
-	
+
 	@Column(name = "created_by")
 	private Long createdBy;
-	
+
 	@Column(name = "created_date")
 	private Date createdDate;
-	
+
 	@Column(name = "modified_by")
 	private Long modifiedBy;
-	
+
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 
@@ -133,5 +134,5 @@ public class UserWorkspace {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
+
 }

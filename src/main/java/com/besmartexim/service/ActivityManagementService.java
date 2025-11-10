@@ -1,10 +1,7 @@
 package com.besmartexim.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +23,7 @@ public class ActivityManagementService {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 
-	public Long saveOrUpdateTracker( UserDownloadTrackerReqRes userDownloadTrackerRequest, Long accessedBy) {
+	public Long saveOrUpdateTracker(UserDownloadTrackerReqRes userDownloadTrackerRequest, Long accessedBy) {
 
 		UserDownloadTracker userDownloadTracker = null;
 
@@ -40,13 +37,15 @@ public class ActivityManagementService {
 				userDownloadTracker.setCreatedDate(new Date());
 				userDownloadTracker.setDownloadedRecords(
 						objectMapper.writeValueAsString(userDownloadTrackerRequest.getDownloadedRecords()));
-				userDownloadTracker.setDownloadedRecordCount(Long.parseLong(""+userDownloadTrackerRequest.getDownloadedRecords().size()));
+				userDownloadTracker.setDownloadedRecordCount(
+						Long.parseLong("" + userDownloadTrackerRequest.getDownloadedRecords().size()));
 
 			} else {
 				userDownloadTracker = data.get(0);
 				userDownloadTracker.setDownloadedRecords(
 						objectMapper.writeValueAsString(userDownloadTrackerRequest.getDownloadedRecords()));
-				userDownloadTracker.setDownloadedRecordCount(Long.parseLong(""+userDownloadTrackerRequest.getDownloadedRecords().size()));
+				userDownloadTracker.setDownloadedRecordCount(
+						Long.parseLong("" + userDownloadTrackerRequest.getDownloadedRecords().size()));
 			}
 			userDownloadTracker = userDownloadTrackerRepo.save(userDownloadTracker);
 
@@ -68,9 +67,11 @@ public class ActivityManagementService {
 				userDownloadTracker = data.get(0);
 				UserDownloadTrackerReqRes userDownloadTrackerReqRes = new UserDownloadTrackerReqRes();
 				userDownloadTrackerReqRes.setUserId(userId);
-				//List<Long> array = objectMapper.readValue(userDownloadTracker.getDownloadedRecords(), ArrayList.class);
-				//List<Long> array = Arrays.asList(userDownloadTracker.getDownloadedRecords());
-				//userDownloadTrackerReqRes.setDownloadedRecords(array);
+				// List<Long> array =
+				// objectMapper.readValue(userDownloadTracker.getDownloadedRecords(),
+				// ArrayList.class);
+				// List<Long> array = Arrays.asList(userDownloadTracker.getDownloadedRecords());
+				// userDownloadTrackerReqRes.setDownloadedRecords(array);
 
 				return userDownloadTracker.getDownloadedRecords();
 			}

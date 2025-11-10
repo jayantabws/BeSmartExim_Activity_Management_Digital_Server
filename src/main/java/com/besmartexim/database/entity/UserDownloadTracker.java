@@ -12,21 +12,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user_download_tracker")
 public class UserDownloadTracker {
-	
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "user_id")
 	private Long userId;
-	
+
 	@Column(name = "downloaded_records")
 	private String downloadedRecords;
-	
+
 	@Column(name = "downloaded_record_count")
 	private Long downloadedRecordCount;
-	
+
 	@Column(name = "created_date")
 	private Date createdDate;
 
@@ -69,7 +69,5 @@ public class UserDownloadTracker {
 	public void setDownloadedRecordCount(Long downloadedRecordCount) {
 		this.downloadedRecordCount = downloadedRecordCount;
 	}
-	
-	
 
 }

@@ -1,4 +1,5 @@
 package com.besmartexim.database.entity;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,34 +16,34 @@ public class UserSavedContacts {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "company_name")
 	private String companyName;
-	
+
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "mobile")
 	private String mobile;
-	
+
 	@Column(name = "website")
 	private String website;
-	
+
 	@Column(name = "is_delete")
 	private String isDelete;
-	
+
 	@Column(name = "created_by")
 	private Long createdBy;
-	
+
 	@Column(name = "created_date")
 	private Date createdDate;
-	
+
 	@Column(name = "modified_by")
 	private Long modifiedBy;
-	
+
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 
@@ -133,6 +134,5 @@ public class UserSavedContacts {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-	
-	
+
 }

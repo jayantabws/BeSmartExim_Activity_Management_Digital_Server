@@ -23,29 +23,31 @@ import com.besmartexim.service.ActivityManagementService;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="/activity-management")
+@RequestMapping(path = "/activity-management")
 public class ActivityManagementController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ActivityManagementController.class);
-	
+
 	@Autowired
 	private ActivityManagementService activityManagementService;
 
 	@RequestMapping(value = "/download-tracker/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> saveOrUpdateTracker(@RequestBody UserDownloadTrackerReqRes userDownloadTrackerRequest, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
+	public ResponseEntity<?> saveOrUpdateTracker(@RequestBody UserDownloadTrackerReqRes userDownloadTrackerRequest,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
 		logger.info("Request : /download-tracker/update");
 		Long trackerId;
 		trackerId = activityManagementService.saveOrUpdateTracker(userDownloadTrackerRequest, accessedBy);
 		return new ResponseEntity<>(trackerId, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/download-tracker/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String trackerByUserId(@RequestParam Long userId, @RequestHeader(value="accessedBy", required=true) Long accessedBy ) throws Exception{
-		logger.info("accessedBy = "+accessedBy);
-			
+	public String trackerByUserId(@RequestParam Long userId,
+			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+
 		String userDownloadTracker = activityManagementService.trackerByUserId(userId);
-		
+
 		return userDownloadTracker;
-		
+
 	}
 }

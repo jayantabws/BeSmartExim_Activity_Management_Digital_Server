@@ -1,62 +1,59 @@
 package com.besmartexim.dto.request;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 
 public class UserSearchRequest {
 
-	//@NotBlank
+	// @NotBlank
 	private SearchType searchType;
-	
-	//@NotBlank
+
+	// @NotBlank
 	private TreadType tradeType;
-	
+
 	@NotBlank
 	private String fromDate;
-	
+
 	@NotBlank
 	private String toDate;
-	
-	//@NotBlank
-	private SearchBy searchBy;	
-	
+
+	// @NotBlank
+	private SearchBy searchBy;
+
 	private List<String> searchValue;
-	
+
 	private MatchType matchType;
-	
-	//@Max(value = 3)
+
+	// @Max(value = 3)
 	private List<String> countryCode;
-	
+
 	private Long searchId;
-	
+
 	private List<String> hsCodeList;
-	
+
 	private List<String> hsCode4DigitList;
-	
+
 	private List<String> exporterList;
-	
+
 	private List<String> importerList;
-	
+
 	private List<String> cityOriginList;
-	
+
 	private List<String> cityDestinationList;
-	
+
 	private List<String> portOriginList;
-	
-	private List<String> portDestinationList;	
-	
+
+	private List<String> portDestinationList;
+
 	private String columnName;
-	
+
 	private String orderByColumn;
-	
+
 	private String orderByMode;
-	
+
 	private Integer pageNumber;
-	
+
 	private Integer numberOfRecords;
 
 	public SearchType getSearchType() {
@@ -235,12 +232,4 @@ public class UserSearchRequest {
 		this.numberOfRecords = numberOfRecords;
 	}
 
-	
-	
-	
 }
-
-
-
-
-

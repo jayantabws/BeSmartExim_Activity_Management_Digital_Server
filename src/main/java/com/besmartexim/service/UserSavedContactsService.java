@@ -18,41 +18,39 @@ import com.besmartexim.dto.response.UserSavedContactsResponse;
 
 @Service
 public class UserSavedContactsService {
-	
+
 	@Autowired
 	private UserSavedContactsRepository userSavedContactsRepository;
-	
-	public String savecontact(UserSavedContactsRequest request, Long accessedBy)
-	{String address =null;
-	String email = null;
-	String mobile =null;
-	String website = null;
-		
-		List<UserSavedContacts> list = userSavedContactsRepository.findBycreatedByAndCompanyName(accessedBy,request.getCompanyName());
-		
-		if(list.isEmpty()) {
+
+	public String savecontact(UserSavedContactsRequest request, Long accessedBy) {
+		String address = null;
+		String email = null;
+		String mobile = null;
+		String website = null;
+
+		List<UserSavedContacts> list = userSavedContactsRepository.findBycreatedByAndCompanyName(accessedBy,
+				request.getCompanyName());
+
+		if (list.isEmpty()) {
 			String companyName = request.getCompanyName();
-			
+
 			List<UserSavedContacts> existingList = userSavedContactsRepository.findByCompanyName(companyName);
-			
-			if(!existingList.isEmpty()) {
+
+			if (!existingList.isEmpty()) {
 				for (Iterator iterator = existingList.iterator(); iterator.hasNext();) {
 					UserSavedContacts userSavedContacts = (UserSavedContacts) iterator.next();
-					if(userSavedContacts.getAddress()!=null
-							&& userSavedContacts.getEmail()!=null
-							&& userSavedContacts.getMobile()!=null
-							&& userSavedContacts.getWebsite()!=null) {
-						
-						 address = userSavedContacts.getAddress();
-						 email = userSavedContacts.getEmail();
-						 mobile = userSavedContacts.getMobile();
-						 website = userSavedContacts.getWebsite();
+					if (userSavedContacts.getAddress() != null && userSavedContacts.getEmail() != null
+							&& userSavedContacts.getMobile() != null && userSavedContacts.getWebsite() != null) {
+
+						address = userSavedContacts.getAddress();
+						email = userSavedContacts.getEmail();
+						mobile = userSavedContacts.getMobile();
+						website = userSavedContacts.getWebsite();
 						break;
 					}
 				}
 			}
-			
-			
+
 			UserSavedContacts userSavedContactsEntity = new UserSavedContacts();
 			userSavedContactsEntity.setCompanyName(companyName);
 			userSavedContactsEntity.setAddress(address);
@@ -63,22 +61,21 @@ public class UserSavedContactsService {
 			userSavedContactsEntity.setCreatedDate(new Date());
 			userSavedContactsRepository.save(userSavedContactsEntity);
 			return "CREATED";
-		}else {
+		} else {
 			return "DUPLICATE";
 		}
 	}
-	
-	public void updatecontact(UserSavedContactsRequest request, Long contactId, Long accessedBy)
-	{
-		
+
+	public void updatecontact(UserSavedContactsRequest request, Long contactId, Long accessedBy) {
+
 		Optional<UserSavedContacts> list = userSavedContactsRepository.findById(contactId);
-		
+
 		String companyName = request.getCompanyName();
 		String address = request.getAddress();
 		String email = request.getEmail();
 		String mobile = request.getMobile();
 		String website = request.getWebsite();
-		
+
 		UserSavedContacts userSavedContactsEntity = list.get();
 		userSavedContactsEntity.setCompanyName(companyName);
 		userSavedContactsEntity.setAddress(address);
@@ -89,55 +86,49 @@ public class UserSavedContactsService {
 		userSavedContactsEntity.setModifiedDate(new Date());
 		userSavedContactsRepository.save(userSavedContactsEntity);
 	}
-	
-	public UserSavedContactsResponse savedContactListByUserId(Long userId) throws Exception
-	{
+
+	public UserSavedContactsResponse savedContactListByUserId(Long userId) throws Exception {
 		UserSavedContactsResponse userSavedContactsResponse = new UserSavedContactsResponse();
-		
+
 		List<UserSavedContacts> srclist = userSavedContactsRepository.findBycreatedBy(userId);
-		
+
 		List<SavedContacts> targetlist = new ArrayList<SavedContacts>();
-		
-		if(null!=srclist && !srclist.isEmpty()) {
-			
-			for(UserSavedContacts UserSavedContacts:srclist)
-			{
+
+		if (null != srclist && !srclist.isEmpty()) {
+
+			for (UserSavedContacts UserSavedContacts : srclist) {
 				SavedContacts savedContacts = new SavedContacts();
-				BeanUtils.copyProperties(UserSavedContacts,savedContacts);
+				BeanUtils.copyProperties(UserSavedContacts, savedContacts);
 				targetlist.add(savedContacts);
-			}			
-			
+			}
+
 		}
-		
+
 		userSavedContactsResponse.setContactList(targetlist);
-		return userSavedContactsResponse;		
-		
+		return userSavedContactsResponse;
+
 	}
-	
-	public UserSavedContactsResponse savedContactListAll() throws Exception
-	{
+
+	public UserSavedContactsResponse savedContactListAll() throws Exception {
 		UserSavedContactsResponse userSavedContactsResponse = new UserSavedContactsResponse();
-		
+
 		List<UserSavedContacts> srclist = userSavedContactsRepository.findAll();
-		
+
 		List<SavedContacts> targetlist = new ArrayList<SavedContacts>();
-		
-		if(null!=srclist && !srclist.isEmpty()) {
-			
-			for(UserSavedContacts UserSavedContacts:srclist)
-			{
+
+		if (null != srclist && !srclist.isEmpty()) {
+
+			for (UserSavedContacts UserSavedContacts : srclist) {
 				SavedContacts savedContacts = new SavedContacts();
-				BeanUtils.copyProperties(UserSavedContacts,savedContacts);
+				BeanUtils.copyProperties(UserSavedContacts, savedContacts);
 				targetlist.add(savedContacts);
-			}			
-			
+			}
+
 		}
-		
+
 		userSavedContactsResponse.setContactList(targetlist);
-		return userSavedContactsResponse;		
-		
+		return userSavedContactsResponse;
+
 	}
-	
-	
 
 }
