@@ -37,7 +37,7 @@ public class UserSavedContactsService {
 			List<UserSavedContacts> existingList = userSavedContactsRepository.findByCompanyName(companyName);
 
 			if (!existingList.isEmpty()) {
-				for (Iterator iterator = existingList.iterator(); iterator.hasNext();) {
+				for (Iterator<?> iterator = existingList.iterator(); iterator.hasNext();) {
 					UserSavedContacts userSavedContacts = (UserSavedContacts) iterator.next();
 					if (userSavedContacts.getAddress() != null && userSavedContacts.getEmail() != null
 							&& userSavedContacts.getMobile() != null && userSavedContacts.getWebsite() != null) {

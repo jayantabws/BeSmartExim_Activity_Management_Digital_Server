@@ -101,7 +101,7 @@ public class UserWorkspaceService {
 
 		if (!list.isEmpty()) {
 			List<SearchQueryWithWS> searchQueryWithWSList = new ArrayList<SearchQueryWithWS>();
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
 				UserWorkspace userWorkspace = (UserWorkspace) iterator.next();
 				SearchQueryWithWS searchQueryWithWS = new SearchQueryWithWS();
 				BeanUtils.copyProperties(userWorkspace, searchQueryWithWS);

@@ -8,15 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.besmartexim.dto.request.UserSavedContactsRequest;
 import com.besmartexim.dto.response.UserSavedContactsResponse;
 import com.besmartexim.service.UserSavedContactsService;
@@ -31,7 +23,7 @@ public class UserSavedContactsController {
 	@Autowired
 	private UserSavedContactsService userSavedContactsService;
 
-	@RequestMapping(value = "/savecontact", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/savecontact", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> savecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
 			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
 		logger.info("Request : /activity-management/savecontact");
@@ -39,7 +31,7 @@ public class UserSavedContactsController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/updatecontact/{contactId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/updatecontact/{contactId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updatecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
 			@PathVariable Long contactId, @RequestHeader(value = "accessedBy", required = true) Long accessedBy)
 			throws Exception {
@@ -48,8 +40,8 @@ public class UserSavedContactsController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/listcontact", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity contactListByUserId(@RequestParam Long userId,
+	@GetMapping(value = "/listcontact", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> contactListByUserId(@RequestParam Long userId,
 			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
 		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListByUserId(userId);
@@ -57,8 +49,8 @@ public class UserSavedContactsController {
 
 	}
 
-	@RequestMapping(value = "/listcontact/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity contactListAll(@RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+	@GetMapping(value = "/listcontact/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> contactListAll(@RequestHeader(value = "accessedBy", required = true) Long accessedBy)
 			throws Exception {
 		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListAll();
