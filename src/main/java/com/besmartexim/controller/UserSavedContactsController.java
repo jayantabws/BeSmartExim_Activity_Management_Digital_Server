@@ -25,7 +25,7 @@ public class UserSavedContactsController {
 
 	@PostMapping(value = "/savecontact", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> savecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
-			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+			@RequestHeader(required = true) Long accessedBy) throws Exception {
 		logger.info("Request : /activity-management/savecontact");
 		String result = userSavedContactsService.savecontact(userSavedContactsRequest, accessedBy);
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -33,7 +33,7 @@ public class UserSavedContactsController {
 
 	@PutMapping(value = "/updatecontact/{contactId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updatecontact(@RequestBody @Valid UserSavedContactsRequest userSavedContactsRequest,
-			@PathVariable Long contactId, @RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+			@PathVariable Long contactId, @RequestHeader(required = true) Long accessedBy)
 			throws Exception {
 		logger.info("Request : /activity-management/updatecontact");
 		userSavedContactsService.updatecontact(userSavedContactsRequest, contactId, accessedBy);
@@ -42,7 +42,7 @@ public class UserSavedContactsController {
 
 	@GetMapping(value = "/listcontact", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> contactListByUserId(@RequestParam Long userId,
-			@RequestHeader(value = "accessedBy", required = true) Long accessedBy) throws Exception {
+			@RequestHeader(required = true) Long accessedBy) throws Exception {
 		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListByUserId(userId);
 		return new ResponseEntity<>(userSavedContactsResponse, HttpStatus.OK);
@@ -50,7 +50,7 @@ public class UserSavedContactsController {
 	}
 
 	@GetMapping(value = "/listcontact/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> contactListAll(@RequestHeader(value = "accessedBy", required = true) Long accessedBy)
+	public ResponseEntity<?> contactListAll(@RequestHeader(required = true) Long accessedBy)
 			throws Exception {
 		logger.info("accessedBy = " + accessedBy);
 		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListAll();

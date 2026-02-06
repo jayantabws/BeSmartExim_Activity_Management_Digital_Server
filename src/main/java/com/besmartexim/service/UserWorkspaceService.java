@@ -43,7 +43,7 @@ public class UserWorkspaceService {
 
 		UserWorkspace userWorkspaceEntity = new UserWorkspace();
 
-		if (request.getId() == null || request.getId().equals("")) {
+		if (request.getId() == null || request.getId()==0) {
 			userWorkspaceEntity.setCreatedBy(accessedBy);
 			userWorkspaceEntity.setCreatedDate(new Date());
 			userWorkspaceEntity.setWorkspaceId(workspaceId);
