@@ -8,12 +8,22 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.besmartexim.database.entity.UserSavedContacts;
 import com.besmartexim.database.repository.UserSavedContactsRepository;
 import com.besmartexim.dto.request.UserSavedContactsRequest;
 import com.besmartexim.dto.response.SavedContacts;
+import com.besmartexim.dto.response.SearchDetailsResponse;
+import com.besmartexim.dto.response.UserDetailsResponse;
 import com.besmartexim.dto.response.UserSavedContactsResponse;
 
 @Service
@@ -21,6 +31,12 @@ public class UserSavedContactsService {
 
 	@Autowired
 	private UserSavedContactsRepository userSavedContactsRepository;
+	
+	@Value("${usermanagement.service.userdetails}")
+	private String userDetailsUrl;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	public String savecontact(UserSavedContactsRequest request, Long accessedBy) {
 		String address = null;
@@ -109,7 +125,7 @@ public class UserSavedContactsService {
 
 	}
 
-	public UserSavedContactsResponse savedContactListAll() throws Exception {
+	public UserSavedContactsResponse savedContactListAll(Long accessedBy) throws Exception {
 		UserSavedContactsResponse userSavedContactsResponse = new UserSavedContactsResponse();
 
 		List<UserSavedContacts> srclist = userSavedContactsRepository.findAll();
@@ -121,6 +137,27 @@ public class UserSavedContactsService {
 			for (UserSavedContacts UserSavedContacts : srclist) {
 				SavedContacts savedContacts = new SavedContacts();
 				BeanUtils.copyProperties(UserSavedContacts, savedContacts);
+				try {
+					HttpHeaders headers = new HttpHeaders();
+					headers.setContentType(MediaType.APPLICATION_JSON);
+					headers.add("accessedBy", "" + accessedBy);
+					headers.add("Authorization", "Basic YXBpLWV4aW13YXRjaDp1ZTg0Q1JSZnRAWGhBMyRG");
+					
+					String uriString = UriComponentsBuilder.fromHttpUrl(userDetailsUrl)
+						    .queryParam("userId", UserSavedContacts.getCreatedBy())
+						    .build().toUriString();
+					
+					ResponseEntity<UserDetailsResponse> responseEntity = restTemplate.exchange(uriString, HttpMethod.GET,
+							new HttpEntity<Object>(headers), UserDetailsResponse.class);
+					
+					UserDetailsResponse response = responseEntity.getBody();
+					//System.out.println(response);
+					savedContacts.setCreatorEmail(response.getEmail());
+					savedContacts.setCreatorCompany(response.getCompanyName());
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				targetlist.add(savedContacts);
 			}
 

@@ -11,6 +11,8 @@ public class SavedContacts {
 	private String mobile;
 	private String website;
 	private Date createdDate;
+	private String creatorEmail;
+	private String creatorCompany;
 
 	public Long getId() {
 		return id;
@@ -66,6 +68,22 @@ public class SavedContacts {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getCreatorEmail() {
+		return creatorEmail;
+	}
+
+	public void setCreatorEmail(String creatorEmail) {
+		this.creatorEmail = creatorEmail;
+	}
+
+	public String getCreatorCompany() {
+		return creatorCompany;
+	}
+
+	public void setCreatorCompany(String creatorCompany) {
+		this.creatorCompany = creatorCompany;
 	}
 
 }
