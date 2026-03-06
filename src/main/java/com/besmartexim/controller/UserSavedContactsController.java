@@ -44,7 +44,7 @@ public class UserSavedContactsController {
 	public ResponseEntity<?> contactListByUserId(@RequestParam Long userId,
 			@RequestHeader(required = true) Long accessedBy) throws Exception {
 		logger.info("accessedBy = " + accessedBy);
-		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListByUserId(userId);
+		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListByUserId(userId, accessedBy);
 		return new ResponseEntity<>(userSavedContactsResponse, HttpStatus.OK);
 
 	}

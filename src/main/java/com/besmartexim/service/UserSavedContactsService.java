@@ -103,7 +103,7 @@ public class UserSavedContactsService {
 		userSavedContactsRepository.save(userSavedContactsEntity);
 	}
 
-	public UserSavedContactsResponse savedContactListByUserId(Long userId) throws Exception {
+	public UserSavedContactsResponse savedContactListByUserId(Long userId, Long accessedBy) throws Exception {
 		UserSavedContactsResponse userSavedContactsResponse = new UserSavedContactsResponse();
 
 		List<UserSavedContacts> srclist = userSavedContactsRepository.findBycreatedBy(userId);
@@ -115,6 +115,7 @@ public class UserSavedContactsService {
 			for (UserSavedContacts UserSavedContacts : srclist) {
 				SavedContacts savedContacts = new SavedContacts();
 				BeanUtils.copyProperties(UserSavedContacts, savedContacts);
+				savedContacts = getCreatorDetails(savedContacts, UserSavedContacts.getCreatedBy(), accessedBy);
 				targetlist.add(savedContacts);
 			}
 
@@ -137,27 +138,7 @@ public class UserSavedContactsService {
 			for (UserSavedContacts UserSavedContacts : srclist) {
 				SavedContacts savedContacts = new SavedContacts();
 				BeanUtils.copyProperties(UserSavedContacts, savedContacts);
-				try {
-					HttpHeaders headers = new HttpHeaders();
-					headers.setContentType(MediaType.APPLICATION_JSON);
-					headers.add("accessedBy", "" + accessedBy);
-					headers.add("Authorization", "Basic YXBpLWV4aW13YXRjaDp1ZTg0Q1JSZnRAWGhBMyRG");
-					
-					String uriString = UriComponentsBuilder.fromHttpUrl(userDetailsUrl)
-						    .queryParam("userId", UserSavedContacts.getCreatedBy())
-						    .build().toUriString();
-					
-					ResponseEntity<UserDetailsResponse> responseEntity = restTemplate.exchange(uriString, HttpMethod.GET,
-							new HttpEntity<Object>(headers), UserDetailsResponse.class);
-					
-					UserDetailsResponse response = responseEntity.getBody();
-					//System.out.println(response);
-					savedContacts.setCreatorEmail(response.getEmail());
-					savedContacts.setCreatorCompany(response.getCompanyName());
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				savedContacts = getCreatorDetails(savedContacts, UserSavedContacts.getCreatedBy(), accessedBy);
 				targetlist.add(savedContacts);
 			}
 
@@ -166,6 +147,34 @@ public class UserSavedContactsService {
 		userSavedContactsResponse.setContactList(targetlist);
 		return userSavedContactsResponse;
 
+	}
+	
+	
+	private SavedContacts getCreatorDetails(SavedContacts savedContacts,Long createdBy, Long accessedBy) {
+		
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.add("accessedBy", "" + accessedBy);
+			headers.add("Authorization", "Basic YXBpLWV4aW13YXRjaDp1ZTg0Q1JSZnRAWGhBMyRG");
+			
+			String uriString = UriComponentsBuilder.fromHttpUrl(userDetailsUrl)
+				    .queryParam("userId", createdBy)
+				    .build().toUriString();
+			
+			ResponseEntity<UserDetailsResponse> responseEntity = restTemplate.exchange(uriString, HttpMethod.GET,
+					new HttpEntity<Object>(headers), UserDetailsResponse.class);
+			
+			UserDetailsResponse response = responseEntity.getBody();
+			//System.out.println(response);
+			savedContacts.setCreatorEmail(response.getEmail());
+			savedContacts.setCreatorCompany(response.getCompanyName());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return savedContacts;
 	}
 
 }
