@@ -22,7 +22,6 @@ import com.besmartexim.database.entity.UserSavedContacts;
 import com.besmartexim.database.repository.UserSavedContactsRepository;
 import com.besmartexim.dto.request.UserSavedContactsRequest;
 import com.besmartexim.dto.response.SavedContacts;
-import com.besmartexim.dto.response.SearchDetailsResponse;
 import com.besmartexim.dto.response.UserDetailsResponse;
 import com.besmartexim.dto.response.UserSavedContactsResponse;
 
