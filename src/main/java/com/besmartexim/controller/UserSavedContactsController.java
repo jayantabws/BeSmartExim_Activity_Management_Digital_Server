@@ -5,6 +5,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,11 +52,21 @@ public class UserSavedContactsController {
 	}
 
 	@GetMapping(value = "/listcontact/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> contactListAll(@RequestHeader(required = true) Long accessedBy)
+	public ResponseEntity<?> contactListAll(@RequestParam(defaultValue = "0") int pageNumber,
+			@RequestHeader(required = true) Long accessedBy)
 			throws Exception {
 		logger.info("accessedBy = " + accessedBy);
-		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListAll(accessedBy);
+		UserSavedContactsResponse userSavedContactsResponse = userSavedContactsService.savedContactListAll(PageRequest.of(pageNumber, 20, Sort.by("createdDate").descending()),accessedBy);
 		return new ResponseEntity<>(userSavedContactsResponse, HttpStatus.OK);
+
+	}
+	
+	@GetMapping(value = "/listcontact/count", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Long> contactListAllCount(@RequestHeader(required = true) Long accessedBy)
+			throws Exception {
+		logger.info("accessedBy = " + accessedBy);
+		Long count = userSavedContactsService.savedContactListCount(accessedBy);
+		return new ResponseEntity<>(count, HttpStatus.OK);
 
 	}
 

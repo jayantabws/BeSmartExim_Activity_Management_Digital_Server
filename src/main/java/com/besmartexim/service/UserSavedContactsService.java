@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -125,10 +126,10 @@ public class UserSavedContactsService {
 
 	}
 
-	public UserSavedContactsResponse savedContactListAll(Long accessedBy) throws Exception {
+	public UserSavedContactsResponse savedContactListAll(Pageable pageable, Long accessedBy) throws Exception {
 		UserSavedContactsResponse userSavedContactsResponse = new UserSavedContactsResponse();
 
-		List<UserSavedContacts> srclist = userSavedContactsRepository.findAll();
+		List<UserSavedContacts> srclist = userSavedContactsRepository.findAll(pageable).getContent();
 
 		List<SavedContacts> targetlist = new ArrayList<SavedContacts>();
 
@@ -174,6 +175,14 @@ public class UserSavedContactsService {
 		}
 		
 		return savedContacts;
+	}
+	
+	
+	public Long savedContactListCount(Long accessedBy) throws Exception {
+
+		Long count = userSavedContactsRepository.count();
+		return count;
+
 	}
 
 }
